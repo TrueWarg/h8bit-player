@@ -1,0 +1,14 @@
+.stack-work/
+*~
+dist
+dist-*
+cabal-dev
+.hpc
+.hsenv
+.cabal-sandbox/
+cabal.sandbox.config
+.stack-work/
+cabal.project.local
+cabal.project.local~
+.HTF/
+.ghc.environment.*
