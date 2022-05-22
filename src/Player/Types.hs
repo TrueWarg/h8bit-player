@@ -47,3 +47,10 @@ data Player =
     , status    :: Status
     , playback  :: Maybe Playback
     }
+
+data Snapshot =
+  Snapshot
+    { playList         :: PlayList
+    , trackPath        :: FilePath
+    , playBackPosition :: Int
+    }

@@ -26,13 +26,20 @@ source-repository head
 library
   exposed-modules:
       Player
+      Player.Process
       Player.Types
+      Player.Storage
   other-modules:
       Paths_h8bit_player
   hs-source-dirs:
       src
   build-depends:
       base >=4.7 && <5
+    , directory
+    , filepath
+    , proteaaudio
+    , bytestring
+    , vector
   default-language: Haskell2010
 
 executable h8bit-player-exe
