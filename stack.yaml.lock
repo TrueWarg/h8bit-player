@@ -5,6 +5,20 @@
 
 packages:
 - completed:
+    hackage: nanovg-0.8.0.0@sha256:224b71e26be44d80e76d4bfc8633aa74dae4b5675109781d57783b75f7aa74ef,4914
+    pantry-tree:
+      size: 2558
+      sha256: c03390da9e9dd47b259c441611baf8afd4026d9de69190e175d94957cf78816b
+  original:
+    hackage: nanovg-0.8.0.0
+- completed:
+    hackage: monomer-1.4.1.0@sha256:6d4e5910ff7e3d754531f7aaacfcbb28013f37a811ca2f47d003389b1c9dc887,15067
+    pantry-tree:
+      size: 14019
+      sha256: f81ef85770cead6b17cb5b842b6d9f3bf1cce481674663823a629eedcdc0f355
+  original:
+    hackage: monomer-1.4.1.0
+- completed:
     hackage: proteaaudio-0.9.2@sha256:bd7638441cb37e73984ad2604bc6db7e24d465ae7cc759da6eb27251ee2ab2b1,2695
     pantry-tree:
       size: 1874
@@ -13,8 +27,7 @@ packages:
     hackage: proteaaudio-0.9.2
 snapshots:
 - completed:
-    size: 618884
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/19/7.yaml
-    sha256: 57d4ce67cc097fea2058446927987bc1f7408890e3a6df0da74e5e318f051c20
-  original:
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/19/7.yaml
+    size: 590102
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/18/27.yaml
+    sha256: 79a786674930a89301b0e908fad2822a48882f3d01486117693c377b8edffdbe
+  original: lts-18.27
