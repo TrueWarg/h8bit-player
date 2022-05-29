@@ -4,6 +4,7 @@ import Monomer(rgbHex)
 
 black = rgbHex "#000000"
 white = rgbHex "#FFFFFF"
+white01 = rgbHex "#F4FFFFFF"
 
 gray00 = rgbHex "#222222"
 gray01 = rgbHex "#2E2E2E"

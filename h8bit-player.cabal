@@ -42,14 +42,18 @@ library
     , vector
     , text
     , text-show
-    , lens 
+    , lens
+    , data-default 
   default-language: Haskell2010
 
 executable h8bit-player-exe
   main-is: Main.hs
   other-modules:
+      Types
       UiKit.Color
       UiKit.Theme
+      UiKit.ListItem
+      UiKit.Typography
   hs-source-dirs:
       app
   default-extensions:
@@ -62,6 +66,8 @@ executable h8bit-player-exe
     , monomer
     , text
     , text-show
+    , data-default
+    , uuid
   default-language: Haskell2010
 
 test-suite h8bit-player-test
