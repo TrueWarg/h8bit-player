@@ -8,7 +8,8 @@ dark :: Theme
 dark =
   baseTheme
     darkThemeColors
-      { btnMainBgBasic = Color.blue01
+      { sectionColor = Color.gray03
+      , btnMainBgBasic = Color.blue01
       , btnMainBgHover = Color.blue02
       , btnMainBgFocus = Color.blue03
       , btnMainBgActive = Color.blue04

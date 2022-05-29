@@ -1,18 +1,23 @@
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE TemplateHaskell   #-}
 
 module Main where
 
-import Control.Lens
-import Data.Text (Text)
-import Monomer
-import TextShow
+import           Control.Lens
+import           Data.Default
+import           Data.Text      (Text)
+import           Data.UUID      (UUID, nil)
+import           Monomer
+import qualified Monomer.Lens   as L
+import           TextShow
+import           UiKit.ListItem as ListItem
 
-import qualified Monomer.Lens as L
-
-newtype AppModel = AppModel {
-  _clickCount :: Int
-} deriving (Eq, Show)
+data AppModel =
+  AppModel
+    { _clickCount :: Int
+    , _props      :: ListItem.BasicProps
+    }
+  deriving (Eq, Show)
 
 data AppEvent
   = AppInit
@@ -21,41 +26,48 @@ data AppEvent
 
 makeLenses 'AppModel
 
-buildUI
-  :: WidgetEnv AppModel AppEvent
-  -> AppModel
-  -> WidgetNode AppModel AppEvent
-buildUI wenv model = widgetTree where
-  widgetTree = vstack [
-      label "Chebureck",
-      spacer,
-      hstack [
-        label $ "Click count: " <> showt (model ^. clickCount),
-        spacer,
-        button "Increase count" AppIncrease
-      ]
-    ] `styleBasic` [padding 10]
+item ::
+     (WidgetModel sp, WidgetEvent ep)
+  => ALens' sp ListItem.BasicProps
+  -> WidgetNode sp ep
+item props = composite "item" props ListItem.basic (\_ _ _ _ -> [])
 
-handleEvent
-  :: WidgetEnv AppModel AppEvent
+buildUI ::
+     WidgetEnv AppModel AppEvent -> AppModel -> WidgetNode AppModel AppEvent
+buildUI wenv model = widgetTree
+  where
+    widgetTree =
+      vstack [item props, item props, item props, item props] `styleBasic`
+      [padding 10]
+
+handleEvent ::
+     WidgetEnv AppModel AppEvent
   -> WidgetNode AppModel AppEvent
   -> AppModel
   -> AppEvent
   -> [AppEventResponse AppModel AppEvent]
-handleEvent wenv node model evt = case evt of
-  AppInit -> []
-  AppIncrease -> [Model (model & clickCount +~ 1)]
+handleEvent wenv node model evt =
+  case evt of
+    AppInit     -> []
+    AppIncrease -> [Model (model & clickCount +~ 1)]
 
 main :: IO ()
 main = do
   startApp model handleEvent buildUI config
   where
-    config = [
-      appWindowTitle "Lol kek",
-      appWindowIcon "./assets/images/icon.bmp",
-      appTheme darkTheme,
-      appFontDef "Regular" "./assets/fonts/Roboto-Regular.ttf",
-      appInitEvent AppInit
+    config =
+      [ appWindowTitle "Player"
+      , appWindowIcon "./assets/images/icon.bmp"
+      , appTheme darkTheme
+      , appFontDef "Regular" "./assets/fonts/Roboto-Regular.ttf"
+      , appInitEvent AppInit
       ]
-    model = AppModel 0
-
+    model =
+      AppModel
+        0
+        def
+          { _basicUID = nil
+          , _basicTitle = "Title"
+          , _basicSubtitle = "Subitlt"
+          , _basicIconRes = "./assets/images/icon.bmp"
+          }
