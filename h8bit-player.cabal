@@ -26,11 +26,10 @@ source-repository head
 library
   exposed-modules:
       Player
+  other-modules:
       Player.Process
       Player.Types
       Player.Storage
-  other-modules:
-      Paths_h8bit_player
   hs-source-dirs:
       src
   build-depends:
@@ -49,7 +48,8 @@ library
 executable h8bit-player-exe
   main-is: Main.hs
   other-modules:
-      Paths_h8bit_player
+      UiKit.Color
+      UiKit.Theme
   hs-source-dirs:
       app
   default-extensions:
