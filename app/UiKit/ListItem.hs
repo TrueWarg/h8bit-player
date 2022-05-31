@@ -8,7 +8,6 @@ module UiKit.ListItem where
 import           Control.Lens
 import           Data.Default
 import           Data.Text        (Text, pack)
-import           Data.UUID        (UUID, nil)
 import           Monomer
 import           Types            (ClickEvent (..))
 import qualified UiKit.Color      as Color
@@ -16,7 +15,7 @@ import qualified UiKit.Typography as Typography
 
 data BasicProps =
   BasicProps
-    { _basicUID      :: UUID
+    { _basicUID      :: Text
     , _basicTitle    :: Text
     , _basicSubtitle :: Text
     , _basicIconRes  :: Text
@@ -30,7 +29,7 @@ type ItemNode = WidgetNode BasicProps ClickEvent
 instance Default BasicProps where
   def =
     BasicProps
-      { _basicUID = nil
+      { _basicUID = ""
       , _basicTitle = ""
       , _basicSubtitle = ""
       , _basicIconRes = ""
@@ -39,10 +38,15 @@ instance Default BasicProps where
 makeLensesWith abbreviatedFields 'BasicProps
 
 itemRowKey :: BasicProps -> Text
-itemRowKey props = "basicPropsRow" <> (pack $ show $ props ^. uID)
+itemRowKey props = "basicPropsRow" <> (props ^. uID)
 
-basic :: ItemEnv -> BasicProps -> ItemNode
-basic wenv props = widgetTree
+basic ::
+     (WidgetModel s, WidgetEvent e)
+  => WidgetEnv s e
+  -> BasicProps
+  -> e
+  -> WidgetNode s e
+basic wenv props clickEvent = widgetTree
   where
     itemKey = itemRowKey props
     icon =
@@ -56,4 +60,4 @@ basic wenv props = widgetTree
           [textColor Color.white01]
         ]
     body = hstack [icon, spacer, textBody] `styleBasic` [padding 12]
-    widgetTree = box_ [onClick ClickEvent, alignCenter] body
+    widgetTree = box_ [onClick clickEvent, alignCenter] body
