@@ -25,6 +25,13 @@ packages:
       sha256: aba140bb67cb71fa18140f819cef85be0c3e7b860cf199d39e0d73e918351b4d
   original:
     hackage: proteaaudio-0.9.2
+- completed:
+    hackage: tinyfiledialogs-0.2.0.0@sha256:20b820209189fa61cd67bca9a8a2202c178c0a0f16b893726aa502bd99458f34,1629
+    pantry-tree:
+      size: 466
+      sha256: 191ad0bad0382c3b332972fa0c7cf3fda1b2007a79f2cc168ba595dc0f79e70f
+  original:
+    hackage: tinyfiledialogs-0.2.0.0
 snapshots:
 - completed:
     size: 590102
