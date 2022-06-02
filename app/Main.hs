@@ -5,21 +5,28 @@ module Main where
 
 import           Control.Lens
 import           Data.Default
-import           Data.Text      (Text, unpack)
+import           Data.Text         (Text, unpack)
 import           Monomer
-import qualified Monomer.Lens   as L
+import qualified Monomer.Lens      as L
+import qualified StrRes
 import           TextShow
-import           UiKit.ListItem as ListItem
+import           UiKit.FileDialogs (openSelectFileDialog,
+                                    openSelectFolderDialog)
+import           UiKit.ListItem    as ListItem
+import           UiKit.Typography
 
 data AppModel =
   AppModel
     { _items  :: [ListItem.BasicProps]
     , _active :: ListItem.BasicProps
+    , _files  :: [Text]
     }
   deriving (Eq, Show)
 
 data AppEvent
-  = AppInit
+  = Idle
+  | SelectFiles
+  | FilesSelected [Text]
   | SelectItem ListItem.BasicProps
   deriving (Eq, Show)
 
@@ -33,7 +40,11 @@ buildUI wenv model = widgetTree
       map (\item -> ListItem.basic wenv item (SelectItem item)) (model ^. items)
     widgetTree =
       vstack
-        [ ListItem.basic wenv (model ^. active) AppInit
+        [ hstack
+            [ mainButton StrRes.selectTracks SelectFiles
+            , spacer
+            , body1 $ mconcat $ model ^. files
+            ]
         , vstack witems `styleBasic` [padding 10]
         ] `styleBasic`
       [padding 10]
@@ -46,8 +57,24 @@ handleEvent ::
   -> [AppEventResponse AppModel AppEvent]
 handleEvent wenv node model evt =
   case evt of
-    AppInit         -> []
-    SelectItem item -> [Model (model & active .~ item)]
+    Idle                -> []
+    SelectFiles         -> selectFiles
+    FilesSelected paths -> [Model (model & files .~ paths)]
+    SelectItem item     -> [Model (model & active .~ item)]
+
+selectFiles =
+  [ Task $ do
+      sr <-
+        openSelectFileDialog
+          StrRes.selectTracks
+          "./"
+          ["*.wav", "*.ogg"]
+          StrRes.wavOrOggFiles
+          True
+      case sr of
+        Nothing    -> return Idle
+        Just paths -> return $ FilesSelected $ paths
+  ]
 
 main :: IO ()
 main = do
@@ -58,7 +85,7 @@ main = do
       , appWindowIcon "./assets/images/icon.bmp"
       , appTheme darkTheme
       , appFontDef "Regular" "./assets/fonts/Roboto-Regular.ttf"
-      , appInitEvent AppInit
+      , appInitEvent Idle
       ]
     model =
       AppModel
@@ -68,6 +95,7 @@ main = do
            "Title 1"
            "Subitlt 1"
            "./assets/images/icon.bmp")
+        []
 
 mocks :: [ListItem.BasicProps]
 mocks = items

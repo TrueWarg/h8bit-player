@@ -9,7 +9,6 @@ import           Control.Lens
 import           Data.Default
 import           Data.Text        (Text, pack)
 import           Monomer
-import           Types            (ClickEvent (..))
 import qualified UiKit.Color      as Color
 import qualified UiKit.Typography as Typography
 
@@ -21,10 +20,6 @@ data BasicProps =
     , _basicIconRes  :: Text
     }
   deriving (Eq, Show)
-
-type ItemEnv = WidgetEnv BasicProps ClickEvent
-
-type ItemNode = WidgetNode BasicProps ClickEvent
 
 instance Default BasicProps where
   def =
